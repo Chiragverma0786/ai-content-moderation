@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auth Center - AI Content Moderation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --card-bg: rgba(18, 24, 38, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --primary-glow: rgba(99, 102, 241, 0.25);
+      --accent: #06b6d4;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --input-bg: rgba(15, 21, 35, 0.8);
+      --input-border: rgba(255, 255, 255, 0.12);
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.15), transparent 40%),
+                  radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.12), transparent 40%),
+                  var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #a5b4fc;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      background: #10b981;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 860px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Tabs */
+    .tabs-nav {
+      display: flex;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 10px 16px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 12px var(--primary-glow);
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #cbd5e1;
+      margin-bottom: 0.4rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      margin-top: 0.5rem;
+    }
+
+    .btn:hover {
+      background: var(--primary-hover);
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e2e8f0;
+      margin-top: 0.5rem;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.14);
+      box-shadow: none;
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.25);
+    }
+
+    /* Response & Console Area */
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+    }
+
+    .status-pill {
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .status-pill.idle {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+    }
+
+    .status-pill.success {
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .status-pill.error {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .code-box {
+      background: #060910;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: #e2e8f0;
+      max-height: 280px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .session-info {
+      margin-top: 1.25rem;
+      padding: 1rem;
+      background: rgba(99, 102, 241, 0.06);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      border-radius: 10px;
+    }
+
+    .session-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .session-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .session-label {
+      color: var(--text-muted);
+    }
+
+    .session-val {
+      color: #a5b4fc;
+      font-weight: 500;
+      font-family: 'JetBrains Mono', monospace;
+      max-width: 240px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .action-group {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .action-group .btn {
+      margin-top: 0;
+      font-size: 0.85rem;
+      padding: 8px 12px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      background: #1e293b;
+      color: #f8fafc;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">
+      <span class="badge-dot"></span> API Server Active
+    </div>
+    <h1>AI Content Moderation</h1>
+    <p class="subtitle">Authentication APIs & Interactive Tester</p>
+  </header>
+
+  <div class="container">
+    <!-- Left Column: Forms -->
+    <div class="card">
+      <div class="tabs-nav">
+        <button class="tab-btn active" id="tabRegisterBtn" onclick="switchTab('register')">Register</button>
+        <button class="tab-btn" id="tabLoginBtn" onclick="switchTab('login')">Login</button>
+      </div>
+
+      <!-- Register Form -->
+      <form id="registerForm" onsubmit="handleRegister(event)">
+        <div class="form-group">
+          <label for="regName">Full Name</label>
+          <input type="text" id="regName" placeholder="e.g. John Doe" required />
+        </div>
+        <div class="form-group">
+          <label for="regEmail">Email Address</label>
+          <input type="email" id="regEmail" placeholder="user@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="regPassword">Password (min. 6 characters)</label>
+          <input type="password" id="regPassword" placeholder="••••••••" minlength="6" required />
+        </div>
+        <div class="form-group">
+          <label for="regRole">Role</label>
+          <select id="regRole">
+            <option value="user">User</option>
+            <option value="moderator">Moderator</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        <button type="submit" class="btn" id="regSubmitBtn">
+          <span>Create Account</span>
+        </button>
+      </form>
+
+      <!-- Login Form -->
+      <form id="loginForm" class="hidden" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" placeholder="user@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn" id="loginSubmitBtn">
+          <span>Sign In</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Right Column: API Response & Session Inspector -->
+    <div class="card">
+      <div class="panel-header">
+        <div class="panel-title">API Response Monitor</div>
+        <span class="status-pill idle" id="statusPill">STATUS: IDLE</span>
+      </div>
+
+      <div class="code-box" id="responseBox">// Ready. Make a registration or login request to view API responses here.</div>
+
+      <!-- Active Session Status -->
+      <div class="session-info">
+        <div class="session-item">
+          <span class="session-label">Current Auth Token:</span>
+          <span class="session-val" id="tokenDisplay">None (Logged out)</span>
+        </div>
+        <div class="session-item">
+          <span class="session-label">Active User:</span>
+          <span class="session-val" id="userDisplay">None</span>
+        </div>
+        <div class="session-item">
+          <span class="session-label">Role:</span>
+          <span class="session-val" id="roleDisplay">-</span>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons for Testing APIs -->
+      <div class="action-group">
+        <button class="btn btn-secondary" onclick="testProtectedProfile()">
+          ⚡ Test GET /me
+        </button>
+        <button class="btn btn-secondary" onclick="testInvalidToken()">
+          ⚠️ Test Invalid Token
+        </button>
+        <button class="btn btn-danger" onclick="logout()">
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    let currentToken = localStorage.getItem('auth_token') || null;
+    let currentUser = null;
+
+    try {
+      const savedUser = localStorage.getItem('auth_user');
+      if (savedUser) currentUser = JSON.parse(savedUser);
+    } catch (e) {
+      console.error(e);
+    }
+
+    function updateSessionUI() {
+      const tokenDisplay = document.getElementById('tokenDisplay');
+      const userDisplay = document.getElementById('userDisplay');
+      const roleDisplay = document.getElementById('roleDisplay');
+
+      if (currentToken) {
+        tokenDisplay.innerText = currentToken.substring(0, 18) + '...';
+        tokenDisplay.title = currentToken;
+      } else {
+        tokenDisplay.innerText = 'None (Logged out)';
+        tokenDisplay.title = '';
+      }
+
+      if (currentUser) {
+        userDisplay.innerText = currentUser.email || currentUser.name || 'Active';
+        roleDisplay.innerText = currentUser.role || 'user';
+      } else {
+        userDisplay.innerText = 'None';
+        roleDisplay.innerText = '-';
+      }
+    }
+
+    function showToast(message, isError = false) {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.style.borderLeft = isError ? '4px solid var(--error)' : '4px solid var(--success)';
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function displayResponse(status, data) {
+      const statusPill = document.getElementById('statusPill');
+      const responseBox = document.getElementById('responseBox');
+
+      statusPill.innerText = `HTTP ${status}`;
+      statusPill.className = 'status-pill ' + (status >= 200 && status < 300 ? 'success' : 'error');
+
+      responseBox.innerText = JSON.stringify(data, null, 2);
+    }
+
+    function switchTab(tab) {
+      const regTab = document.getElementById('tabRegisterBtn');
+      const loginTab = document.getElementById('tabLoginBtn');
+      const regForm = document.getElementById('registerForm');
+      const loginForm = document.getElementById('loginForm');
+
+      if (tab === 'register') {
+        regTab.classList.add('active');
+        loginTab.classList.remove('active');
+        regForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+      } else {
+        loginTab.classList.add('active');
+        regTab.classList.remove('active');
+        loginForm.classList.remove('hidden');
+        regForm.classList.add('hidden');
+      }
+    }
+
+    async function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('regName').value;
+      const email = document.getElementById('regEmail').value;
+      const password = document.getElementById('regPassword').value;
+      const role = document.getElementById('regRole').value;
+
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, password, role }),
+        });
+
+        const data = await res.json();
+        displayResponse(res.status, data);
+
+        if (res.ok) {
+          currentToken = data.token;
+          currentUser = data.user;
+          localStorage.setItem('auth_token', currentToken);
+          localStorage.setItem('auth_user', JSON.stringify(currentUser));
+          updateSessionUI();
+          showToast('Registration successful! Token generated.');
+        } else {
+          showToast(data.message || 'Registration failed', true);
+        }
+      } catch (err) {
+        displayResponse(500, { error: err.message });
+        showToast('Request error', true);
+      }
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const data = await res.json();
+        displayResponse(res.status, data);
+
+        if (res.ok) {
+          currentToken = data.token;
+          currentUser = data.user;
+          localStorage.setItem('auth_token', currentToken);
+          localStorage.setItem('auth_user', JSON.stringify(currentUser));
+          updateSessionUI();
+          showToast('Login successful! Welcome back.');
+        } else {
+          showToast(data.message || 'Login failed', true);
+        }
+      } catch (err) {
+        displayResponse(500, { error: err.message });
+        showToast('Request error', true);
+      }
+    }
+
+    async function testProtectedProfile() {
+      if (!currentToken) {
+        showToast('No active token. Please register or log in first.', true);
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/auth/me', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${currentToken}`,
+          },
+        });
+
+        const data = await res.json();
+        displayResponse(res.status, data);
+
+        if (res.ok) {
+          showToast('Protected /me route accessed successfully!');
+        } else {
+          showToast(data.message || 'Protected route rejected', true);
+        }
+      } catch (err) {
+        displayResponse(500, { error: err.message });
+        showToast('Request error', true);
+      }
+    }
+
+    async function testInvalidToken() {
+      try {
+        const res = await fetch('/api/auth/me', {
+          method: 'GET',
+          headers: {
+            'Authorization': 'Bearer invalid.bogus.jwt.token.here',
+          },
+        });
+
+        const data = await res.json();
+        displayResponse(res.status, data);
+        showToast(`Route rejected invalid token as expected (${res.status})`);
+      } catch (err) {
+        displayResponse(500, { error: err.message });
+      }
+    }
+
+    function logout() {
+      currentToken = null;
+      currentUser = null;
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('auth_user');
+      updateSessionUI();
+      displayResponse(200, { message: 'Session cleared. User logged out.' });
+      showToast('Logged out successfully');
+    }
+
+    // Initialize UI on load
+    updateSessionUI();
+  </script>
+</body>
+</html>

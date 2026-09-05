@@ -1,0 +1,175 @@
+{
+  "category": "threats",
+  "name": "Threats & Violent Harm",
+  "version": "1.0.0",
+  "description": "Rules and guidelines for detecting direct, indirect, or conditional threats of physical violence, murder, bodily harm, mass shootings, bombings, hostage taking, terrorism, and promotion or instruction of self-harm.",
+  "severity_levels": {
+    "critical": "Imminent, specific threats to life, mass casualty threats, bomb threats, active shooter declarations, or suicide instructions.",
+    "high": "Direct threats of severe bodily harm, kidnapping, arson, or weaponized attacks.",
+    "medium": "Veiled threats, intimidation, conditional violent ultimatums, or encouraging self-harm.",
+    "low": "Hyperbolic colloquial violent idioms or non-credible expressions of anger requiring disambiguation."
+  },
+  "rules": [
+    {
+      "id": "THRT-001",
+      "name": "Direct Death Threats & Physical Violence",
+      "description": "Direct, explicit threats to kill, inflict severe injury, rape, mutilate, or physically assault an individual or designated group.",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "i will kill you",
+        "i'm going to murder you",
+        "i will slit your throat",
+        "i'm going to beat you to death",
+        "you will end up in a body bag"
+      ],
+      "examples": {
+        "violating": [
+          "I will find you and put a bullet through your head.",
+          "I know where you live and I am coming to kill you tonight.",
+          "I will break every bone in your body if I see you outside."
+        ],
+        "non_violating": [
+          "Quotes from movie scripts, thriller novels, or fictional dialogues clearly framed as art.",
+          "Reporting a threat received to the authorities or community for awareness.",
+          "Gaming banter in combat games: 'I'll take you down in round 2!'"
+        ]
+      },
+      "context_notes": "Immediate escalation required if target identity and intention are verified."
+    },
+    {
+      "id": "THRT-002",
+      "name": "Mass Violence, Bombing & Terror Threats",
+      "description": "Threats or proclamations involving mass murder, public shootings, bomb detonations, chemical/biological attacks, or terrorist acts.",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "bomb threat",
+        "school shooting",
+        "shoot up the place",
+        "planting explosives",
+        "detonate a bomb",
+        "terrorist attack"
+      ],
+      "examples": {
+        "violating": [
+          "I am going to bring an assault rifle to the university tomorrow and shoot everyone.",
+          "There is a pipe bomb planted in the city hall building set to detonate at noon.",
+          "We will blow up the transit station during peak rush hour."
+        ],
+        "non_violating": [
+          "News reporting on an ongoing or historical security incident.",
+          "Emergency safety drills and evacuation procedure announcements by authorized staff.",
+          "Discussion of cybersecurity penetration testing or military history."
+        ]
+      },
+      "context_notes": "Highest priority category. Requires immediate automated block and emergency escalation protocol."
+    },
+    {
+      "id": "THRT-003",
+      "name": "Veiled, Indirect & Conditional Threats",
+      "description": "Indirect threats, intimidation, ominous warnings implying imminent harm, or conditional ultimatums promising violence.",
+      "severity": "high",
+      "action": "block",
+      "indicators": [
+        "watch your back",
+        "you won't live to regret this",
+        "better sleep with one eye open",
+        "accidents happen",
+        "someone might pay you a visit"
+      ],
+      "examples": {
+        "violating": [
+          "You better look over your shoulder every time you leave your house.",
+          "Keep talking and you won't live to see next week.",
+          "Accidents happen to people who cross us, just wait and see."
+        ],
+        "non_violating": [
+          "Advice regarding general personal safety: 'Make sure to watch your back in that poorly lit alley.'",
+          "Metaphorical business idioms: 'Competition is fierce, watch your market share.'",
+          "Medical warnings: 'If you ignore this symptom, you might regret it.'"
+        ]
+      },
+      "context_notes": "Evaluate targeted intent versus figurative language."
+    },
+    {
+      "id": "THRT-004",
+      "name": "Encouragement or Instruction of Self-Harm & Suicide",
+      "description": "Content that encourages, instructs, romanticizes, or urges someone to commit suicide or self-harm.",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "kill yourself",
+        "kys",
+        "slit your wrists",
+        "drink bleach",
+        "hang yourself",
+        "you should end your life",
+        "how to commit suicide"
+      ],
+      "examples": {
+        "violating": [
+          "Nobody loves you, go kill yourself.",
+          "You should do the world a favor and jump off a bridge.",
+          "Step-by-step instructions on how to overdose or hang oneself effectively."
+        ],
+        "non_violating": [
+          "A user sharing their recovery journey or mental health struggles.",
+          "Providing suicide prevention hotline numbers (e.g., 988) and crisis intervention resources.",
+          "Academic discussions about suicide prevention strategies."
+        ]
+      },
+      "context_notes": "Must provide immediate crisis helpline resources whenever suicide/self-harm triggers are detected."
+    },
+    {
+      "id": "THRT-005",
+      "name": "SWATting, Doxx-Threats & Physical Sabotage",
+      "description": "Threatening to send armed police (SWATting), tamper with vehicle brakes, poison food/water, or cause infrastructural physical hazards.",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "i'm swatting you",
+        "sending armed police to your door",
+        "cut your brakes",
+        "poisoning your drink",
+        "swat team is coming"
+      ],
+      "examples": {
+        "violating": [
+          "I have your address and I am calling in an active shooter hoax to get SWAT to your door.",
+          "Don't start your car tomorrow, your brake lines might be cut.",
+          "I put something lethal in the workplace coffee maker."
+        ],
+        "non_violating": [
+          "News articles covering legal convictions of serial SWATters.",
+          "Auto repair guides discussing how to identify worn brake pads.",
+          "Discussions of workplace health and food safety standards."
+        ]
+      },
+      "context_notes": "SWATting threats involve immediate danger to life through malicious deployment of armed emergency response."
+    },
+    {
+      "id": "THRT-006",
+      "name": "Extortion & Blackmail with Physical Threats",
+      "description": "Demanding money, actions, or silence backed by threats of physical violence against the victim or their loved ones.",
+      "severity": "high",
+      "action": "block",
+      "indicators": [
+        "pay or else",
+        "do this or your family gets hurt",
+        "if you go to the police you will pay with blood"
+      ],
+      "examples": {
+        "violating": [
+          "Send $5,000 in Bitcoin or I will kidnap your daughter from school.",
+          "Withdraw the police complaint or your house will burn down."
+        ],
+        "non_violating": [
+          "Standard legal litigation notices: 'Pay the overdue invoice or legal action will be initiated.'",
+          "Discussion of cybersecurity ransomware attacks in IT blogs."
+        ]
+      },
+      "context_notes": "Differentiate legitimate civil legal remedy notices from unlawful extortion backed by force."
+    }
+  ]
+}

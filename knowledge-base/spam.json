@@ -1,0 +1,175 @@
+{
+  "category": "spam",
+  "name": "Spam, Phishing & Commercial Deception",
+  "version": "1.0.0",
+  "description": "Rules and guidelines for detecting unsolicited commercial bulk messages, deceptive affiliate links, phishing attempts, financial/crypto scams, engagement manipulation, bot-generated gibberish, and repetitive content flooding.",
+  "severity_levels": {
+    "critical": "Credential harvesting, phishing links, malware distribution, or direct financial theft scams.",
+    "high": "Crypto pyramid schemes, counterfeit goods selling, fake giveaways, or account hijacking bots.",
+    "medium": "Unsolicited promotional link dumping, affiliate link spamming, or repetitive posting.",
+    "low": "Borderline promotional posts, minor engagement bait, or excessive hashtag usage."
+  },
+  "rules": [
+    {
+      "id": "SPAM-001",
+      "name": "Phishing & Credential Theft",
+      "description": "Links or messages designed to trick users into revealing sensitive passwords, 2FA tokens, session cookies, or banking credentials by mimicking legitimate services.",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "verify your account",
+        "your account will be suspended",
+        "login at this link",
+        "update billing details",
+        "claim prize by logging in",
+        "bank security alert"
+      ],
+      "examples": {
+        "violating": [
+          "URGENT: Your account has been suspended! Verify your password immediately at http://paypa1-security-check.ru/login.",
+          "Your bank card is compromised. Click here to confirm your card number, PIN, and CVV to prevent lock out.",
+          "Free $500 gift card! Login with your Google account here to claim."
+        ],
+        "non_violating": [
+          "Official in-app notifications from the system sent via authenticated channels.",
+          "Educational articles detailing how to recognize phishing email signatures.",
+          "Security analysts sharing sanitized malware indicators (defanged URLs like hxxp://example[.]com)."
+        ]
+      },
+      "context_notes": "Examine URL structures, domain spoofing (typosquatting), and urgency tactics."
+    },
+    {
+      "id": "SPAM-002",
+      "name": "Financial, Crypto & Get-Rich-Quick Scams",
+      "description": "Promoting fraudulent investment opportunities, Ponzi schemes, guaranteed high-return cryptocurrency trading bots, fake forex signals, or pyramid structures.",
+      "severity": "high",
+      "action": "block",
+      "indicators": [
+        "guaranteed profit",
+        "invest $100 earn $5000",
+        "send 1 btc get 2 btc back",
+        "crypto recovery specialist",
+        "passive income secret",
+        "whatsapp mentor"
+      ],
+      "examples": {
+        "violating": [
+          "Invest $200 today with our AI automated crypto trading bot and withdraw $3,500 guaranteed profit in 24 hours! DM on WhatsApp.",
+          "Elon Musk is giving away 5,000 ETH! Send 0.5 ETH to the wallet address below to receive 1 ETH back instantly.",
+          "Lost money to scammers? Contact Mr. Robert on Telegram to recover 100% of your lost funds guaranteed."
+        ],
+        "non_violating": [
+          "Legitimate educational discussions on stock index funds, ETFs, or market trends.",
+          "Cryptocurrency technology discussions, blockchain protocol research.",
+          "Financial planning blogs discussing emergency funds or budgeting basics."
+        ]
+      },
+      "context_notes": "Promises of zero-risk guaranteed extraordinary returns and requests to contact third-party messaging apps (Telegram, WhatsApp) are hallmark scam patterns."
+    },
+    {
+      "id": "SPAM-003",
+      "name": "Unsolicited Bulk Commercial Content & Link Dumping",
+      "description": "Posting unsolicited advertisements, affiliate links, coupon codes, product sales pitches, or website link dumping unrelated to the topic of discussion.",
+      "severity": "medium",
+      "action": "flag",
+      "indicators": [
+        "buy cheap generic",
+        "best deals click here",
+        "discount code 50% off",
+        "visit my store",
+        "click my bio link for sale"
+      ],
+      "examples": {
+        "violating": [
+          "Cheap replica luxury watches! Click here www.replicawatches247.shop for 80% discount.",
+          "Dropping unrelated affiliate links across 50 user discussion threads about health topics.",
+          "Buy followers, likes and views fast and cheap! Visit cheapgrowthsocial.net."
+        ],
+        "non_violating": [
+          "A creator linking to their portfolio or GitHub project in response to a request for examples.",
+          "Answering someone's explicit query: 'What microphone do you use?' with an honest product link.",
+          "Sharing an open-source tool link in a developer community discussion."
+        ]
+      },
+      "context_notes": "Evaluate relevance to the thread context and whether the user is repeatedly spamming identical links across threads."
+    },
+    {
+      "id": "SPAM-004",
+      "name": "Repetitive Flooding & Bot Automation",
+      "description": "Flooding platforms with duplicate messages, high-frequency repetitive posts, randomized character strings, or automated scraping regurgitation.",
+      "severity": "medium",
+      "action": "block",
+      "indicators": [
+        "identical content repeated multiple times",
+        "asdfjkl random strings",
+        "automated comment flood",
+        "rapid submission bursts"
+      ],
+      "examples": {
+        "violating": [
+          "Posting the exact same sentence 30 times in 2 minutes across different post threads.",
+          "Flooding comment sections with automated gibberish strings 'ajsdf8923h kasdf9823'.",
+          "Automated bots reposting scraped content from other websites to game ranking algorithms."
+        ],
+        "non_violating": [
+          "Accidental duplicate submission caused by network latency / retry (rate-limit handles this).",
+          "Legitimate code snippets or test inputs in a technical debugging forum.",
+          "Repeating a formal announcement across distinct authorized announcement boards."
+        ]
+      },
+      "context_notes": "Distinguish between technical network duplicate retries and deliberate multi-post spam flooding."
+    },
+    {
+      "id": "SPAM-005",
+      "name": "Malicious Downloads & Drive-By Malware",
+      "description": "Links leading to executable malware, trojans, spyware, ransomware, cracked illegal software packed with viruses, or drive-by download pages.",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "download cracked game .exe",
+        "free software crack keygen",
+        "direct download zip containing virus",
+        "update flash player to view"
+      ],
+      "examples": {
+        "violating": [
+          "Download GTA 6 for PC free full crack installer here: bit.ly/free-gta6-installer.exe.",
+          "Your media player is outdated! Click here to download the required update plugin (setup.scr).",
+          "Free cheats / wallhack for Valorant download zip no virus password123."
+        ],
+        "non_violating": [
+          "Links to verified official GitHub releases or trusted package managers (npm, pip, maven).",
+          "Cybersecurity advisories discussing CVE vulnerabilities with sample hashes.",
+          "Official software download pages on canonical developer domains."
+        ]
+      },
+      "context_notes": "High risk of device compromise and data theft. Immediate blocking of shortened URLs linking to executables."
+    },
+    {
+      "id": "SPAM-006",
+      "name": "Deceptive Engagement Farming & Fake Contests",
+      "description": "Deceptive posts promising fake rewards, smartphones, or cars in exchange for sharing, commenting, or filling out third-party survey lead-generation forms.",
+      "severity": "medium",
+      "action": "flag",
+      "indicators": [
+        "type amen to win",
+        "comment win to get an iphone",
+        "share with 10 friends to claim",
+        "complete survey to win $1000 amazon gift card"
+      ],
+      "examples": {
+        "violating": [
+          "We have 500 unsealed iPhone 15s that can't be sold! Comment 'IPHONE' and share to 5 groups to receive one free!",
+          "MrBeast is giving $10,000 to the first 100 people who click this link and complete a 2-minute survey!",
+          "Type 'YES' letter by letter without being interrupted to win $5,000 cash prize."
+        ],
+        "non_violating": [
+          "Verified brand contests with clear terms and conditions and verifiable winners.",
+          "Interactive community quizzes or trivia conducted for social entertainment without deceptive prizes.",
+          "Legitimate academic survey research recruiting voluntary participants."
+        ]
+      },
+      "context_notes": "Scrutinize requests for sharing cascades and deceptive survey walls that harvest user data without providing the promised rewards."
+    }
+  ]
+}

@@ -1,0 +1,178 @@
+{
+  "category": "harassment",
+  "name": "Harassment, Bullying & Cyberstalking",
+  "version": "1.0.0",
+  "description": "Rules and guidelines for detecting targeted bullying, persistent intimidation, cyberstalking, non-consensual sexual harassment, doxxing (PII leakage), malicious dogpiling, and defamatory impersonation.",
+  "severity_levels": {
+    "critical": "Severe cyberstalking with real-time geolocation tracking, doxxing of home addresses/financial data, or non-consensual sexual imagery sharing.",
+    "high": "Aggressive targeted personal attacks, coordinated dogpiling, continuous unwanted sexual advances, or doxxing of personal contacts.",
+    "medium": "Insults, name-calling, persistent unwanted contact after rejection, or public shaming.",
+    "low": "Uncivil interpersonal arguments, sharp criticism, or minor profanity in emotional exchanges."
+  },
+  "rules": [
+    {
+      "id": "HRSM-001",
+      "name": "Targeted Personal Abuse & Bullying",
+      "description": "Repeated or severe personal attacks, degradation, malicious name-calling, or mocking of an individual's appearance, intelligence, grief, or personal misfortune.",
+      "severity": "high",
+      "action": "flag",
+      "indicators": [
+        "ugly loser",
+        "disgusting freak",
+        "worthless piece of trash",
+        "everyone despises you",
+        "die alone",
+        "retard",
+        "moron"
+      ],
+      "examples": {
+        "violating": [
+          "You are the most pathetic, ugly freak on the internet. Everyone in your family hates you.",
+          "Glad your relative passed away, they probably couldn't stand being near you anyway.",
+          "Spamming an individual's posts repeatedly calling them a hideous loser."
+        ],
+        "non_violating": [
+          "Vigorous philosophical or policy disagreements: 'I strongly disagree with your logic here, it is fundamentally flawed.'",
+          "Constructive criticism of public work: 'This film review misunderstands the director's intent.'",
+          "Self-deprecating humor: 'I am so clumsy today, dropped my coffee twice.'"
+        ]
+      },
+      "context_notes": "Harassment focuses on attacking the individual's worth, physical appearance, or dignity rather than their arguments or ideas."
+    },
+    {
+      "id": "HRSM-002",
+      "name": "Doxxing & Unauthorized Sharing of PII",
+      "description": "Sharing, soliciting, or threatening to release an individual's private personally identifiable information (home address, phone number, national ID, financial accounts, private medical records) without consent.",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "here is their address",
+        "their phone number is",
+        "social security number",
+        "doxxed",
+        "leak their info",
+        "drop their real name and location"
+      ],
+      "examples": {
+        "violating": [
+          "Here is their real home address: 124 Main Street, Apt 4B. Go pay them a visit.",
+          "Leaking someone's private personal cell phone number and urging people to flood it with calls.",
+          "Posting someone's medical diagnosis records or bank account statements online to humiliate them."
+        ],
+        "non_violating": [
+          "Sharing publicly available official business contact details for corporate inquiries.",
+          "Contact information for public representatives, government offices, or press agencies.",
+          "User sharing their own contact info willingly in a resume or networking thread."
+        ]
+      },
+      "context_notes": "Immediate redaction and block required. Publishing private home addresses and personal identifiers poses severe offline safety hazards."
+    },
+    {
+      "id": "HRSM-003",
+      "name": "Sexual Harassment & Unsolicited Sexual Advances",
+      "description": "Unsolicited sexual comments, requests for sexual favors, non-consensual sexualization of someone's photos, or threats to distribute intimate images (revenge porn).",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "send nudes",
+        "show me your body",
+        "sexual favors",
+        "intimate pictures",
+        "i will post your private photos",
+        "unwanted sexual remarks"
+      ],
+      "examples": {
+        "violating": [
+          "Show me your body or I will leak your photos to your workplace.",
+          "Repeatedly demanding nude photographs after the recipient has explicitly refused.",
+          "Posting sexually explicit, vulgar commentary evaluating someone's private body parts on their family photo."
+        ],
+        "non_violating": [
+          "Consensual adult romantic messages in private appropriate contexts.",
+          "Artistic or medical discussions regarding anatomy or reproductive health.",
+          "Public health campaigns on sexual harassment awareness."
+        ]
+      },
+      "context_notes": "Strict prohibition on non-consensual sexual content, explicit commentary directed at non-consenting users, and intimate image extortion."
+    },
+    {
+      "id": "HRSM-004",
+      "name": "Coordinated Brigading & Dogpiling",
+      "description": "Organizing, inciting, or encouraging a group of users to flood, mass-report, harass, or demean a specific person or organization across social channels.",
+      "severity": "high",
+      "action": "flag",
+      "indicators": [
+        "raid their profile",
+        "flood their comments",
+        "mass report them",
+        "dogpile",
+        "swarm their inbox",
+        "make their life miserable"
+      ],
+      "examples": {
+        "violating": [
+          "Everyone go raid their profile right now and spam clown emojis on every picture they have.",
+          "Let's all mass report their account with fake claims until they get banned.",
+          "Swarm this person's inbox until they break down and delete their account."
+        ],
+        "non_violating": [
+          "Grassroots political organizing for a peaceful boycott: 'Support workers by not buying from this brand this week.'",
+          "Sharing a link asking friends to support a creator's fundraiser or public petition.",
+          "Encouraging followers to vote in an official public poll."
+        ]
+      },
+      "context_notes": "Intent is malicious disruption and psychological distress targeted at an individual user."
+    },
+    {
+      "id": "HRSM-005",
+      "name": "Cyberstalking & Persistent Unwanted Contact",
+      "description": "Repeatedly attempting to contact someone who has blocked or asked to be left alone, creating multiple throwaway accounts to bypass blocks, or tracking their physical movements.",
+      "severity": "high",
+      "action": "block",
+      "indicators": [
+        "you can't hide from me",
+        "i made a new account to find you",
+        "i saw where you went today",
+        "i'm watching you"
+      ],
+      "examples": {
+        "violating": [
+          "You can block me 10 times, I will keep making new accounts every day to message you.",
+          "I saw you walk into the coffee shop at 2 PM today wearing a blue coat, you can't run from me.",
+          "Monitoring and logging every single comment and movement an individual makes across forums to terrorize them."
+        ],
+        "non_violating": [
+          "Trying to reach a customer who requested callback support via email when phone didn't connect.",
+          "Public investigators tracking public legal filings or public flight trackers of public corporate jets.",
+          "Casual friendly check-in between mutual friends."
+        ]
+      },
+      "context_notes": "Recognize patterns of block evasion and surveillance of individual private users."
+    },
+    {
+      "id": "HRSM-006",
+      "name": "Malicious Impersonation & Defamation",
+      "description": "Pretending to be another real individual without their consent to damage their reputation, cause emotional distress, or post defamatory statements under their identity.",
+      "severity": "high",
+      "action": "flag",
+      "indicators": [
+        "fake account of",
+        "posing as",
+        "defaming",
+        "ruining their reputation by pretending to be them"
+      ],
+      "examples": {
+        "violating": [
+          "Creating a profile using a classmate's picture and real name, posting fabricated offensive statements to get them expelled.",
+          "Impersonating a coworker to confess to fake crimes or misconduct."
+        ],
+        "non_violating": [
+          "Satirical parody accounts that are clearly labeled as satire or comedy in their bio/display name.",
+          "Fan pages clearly identifying as unauthorized tributes to celebrities or artists.",
+          "Roleplay gaming accounts using fictional character identities."
+        ]
+      },
+      "context_notes": "Parody and satire are permitted if clearly disclaimed; deceptive impersonation with intent to harm is prohibited."
+    }
+  ]
+}

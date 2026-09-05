@@ -1,0 +1,181 @@
+{
+  "category": "hate_speech",
+  "name": "Hate Speech & Discrimination",
+  "version": "1.0.0",
+  "description": "Rules and guidelines for detecting content that attacks, denigrates, incites violence against, or dehumanizes individuals or groups based on protected characteristics such as race, ethnicity, national origin, religion, sexual orientation, gender, gender identity, disability, caste, or serious disease.",
+  "severity_levels": {
+    "critical": "Direct incitement to violence, genocide promotion, or severe dehumanization targeting protected groups.",
+    "high": "Use of explicit slurs, hateful tropes, or calls for exclusion/segregation.",
+    "medium": "Veiled hate, stereotyping, dog whistles, or coded discriminatory remarks.",
+    "low": "Borderline derogatory generalizations or insensitive remarks requiring contextual review."
+  },
+  "rules": [
+    {
+      "id": "HATE-001",
+      "name": "Dehumanization & Subhuman Comparisons",
+      "description": "Content that compares protected groups to animals, insects, pests, parasites, diseases, viruses, filth, or non-human entities.",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "pests",
+        "parasites",
+        "infestation",
+        "subhuman",
+        "animals",
+        "disease",
+        "cancer to society",
+        "cockroaches",
+        "vermin"
+      ],
+      "examples": {
+        "violating": [
+          "These immigrants are like a swarm of locusts destroying our country.",
+          "Members of that religion are subhuman parasites that need to be wiped out.",
+          "They are not real people, they are animals and vermin."
+        ],
+        "non_violating": [
+          "Historical analysis showing how propaganda dehumanized marginalized communities during WWII.",
+          "We must clean up the literal cockroach infestation in the apartment building.",
+          "The documentary explores how dehumanizing rhetoric leads to real-world harm."
+        ]
+      },
+      "context_notes": "Distinguish between biological/environmental statements (e.g. actual pest control) and metaphorical dehumanization directed at demographic groups."
+    },
+    {
+      "id": "HATE-002",
+      "name": "Slurs and Hateful Epithets",
+      "description": "Content that uses racial, ethnic, religious, sexual, gender-based, or disability-related slurs or derogatory epithets.",
+      "severity": "high",
+      "action": "block",
+      "indicators": [
+        "racial slurs",
+        "homophobic slurs",
+        "transphobic slurs",
+        "religious slurs",
+        "ableist slurs"
+      ],
+      "examples": {
+        "violating": [
+          "Targeted explicit racial or homophobic slur attacks directed at an individual or community.",
+          "Using derogatory slurs to describe a religious minority."
+        ],
+        "non_violating": [
+          "Academic discussions referencing the linguistic history of reclaimed terms.",
+          "A user discussing their personal experience with hate speech they faced in school.",
+          "Self-referential, reclaimed usage in a non-hostile creative context (requires human review if ambiguous)."
+        ]
+      },
+      "context_notes": "Pay attention to context: self-identification or reporting of slurs is distinct from targeted abuse."
+    },
+    {
+      "id": "HATE-003",
+      "name": "Incitement to Hatred or Discrimination",
+      "description": "Content that calls for, encourages, or justifies systemic discrimination, denial of basic rights, forced deportation, segregation, or exclusion of protected groups.",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "deport them all",
+        "ban all of them from public places",
+        "they shouldn't be allowed to live here",
+        "strip them of rights",
+        "segregate them"
+      ],
+      "examples": {
+        "violating": [
+          "We need to kick out all members of [protected group] and strip them of their citizenship.",
+          "People with disabilities should not be allowed in our workplaces or public spaces.",
+          "Boycott and run businesses owned by [ethnic minority] out of our neighborhood permanently."
+        ],
+        "non_violating": [
+          "Critique of specific government immigration legislation or economic policies without targeting protected identities.",
+          "Debating constitutional law regarding civic participation.",
+          "Reporting on instances of discrimination in housing markets."
+        ]
+      },
+      "context_notes": "Critique of political entities, governments, institutions, or ideologies is not hate speech unless it targets the inherent characteristics of an identity group."
+    },
+    {
+      "id": "HATE-004",
+      "name": "Genocide & Mass Atrocity Denial or Glorification",
+      "description": "Content that promotes, glorifies, denies, minimizes, or celebrates genocides, hate crimes, pogroms, or mass atrocities against protected groups.",
+      "severity": "critical",
+      "action": "block",
+      "indicators": [
+        "holocaust was fake",
+        "they deserved the massacre",
+        "finish what hitler started",
+        "genocide never happened",
+        "praise the lynching"
+      ],
+      "examples": {
+        "violating": [
+          "The Holocaust is an elaborate lie invented for global sympathy.",
+          "They deserved the massacre at that place of worship, someone should do it again.",
+          "Hitler should have finished the job with them."
+        ],
+        "non_violating": [
+          "Educational memorials and historical records of the Holocaust or Rwandan genocide.",
+          "Human rights organizations documenting evidence of atrocities.",
+          "Teaching school curricula about historical atrocities."
+        ]
+      },
+      "context_notes": "Zero-tolerance for glorification or denial of recognized historical or ongoing genocides."
+    },
+    {
+      "id": "HATE-005",
+      "name": "Harmful Stereotypes & Malicious Conspiracy Theories",
+      "description": "Content that promotes malicious conspiracy theories claiming a protected group secretly controls world events, poisons society, or engages in predatory behaviors.",
+      "severity": "high",
+      "action": "flag",
+      "indicators": [
+        "secret cabal",
+        "they control the banks",
+        "blood libel",
+        "great replacement",
+        "infiltrating our schools",
+        "corrupting our children"
+      ],
+      "examples": {
+        "violating": [
+          "That religious group controls all world banks and coordinates global wars behind the scenes.",
+          "The great replacement theory is being executed by [ethnic minority] to destroy our heritage.",
+          "Members of that group are inherently predatory and should not be allowed around children."
+        ],
+        "non_violating": [
+          "Scholarly articles debunking antisemitic or anti-immigrant conspiracy theories.",
+          "Journalistic exposes on the rise of extremist online narratives.",
+          "General criticism of banking systems, multinational corporations, or lobbying groups."
+        ]
+      },
+      "context_notes": "Conspiracy theories targeting protected classes as collective malevolent forces cross into hate speech."
+    },
+    {
+      "id": "HATE-006",
+      "name": "Hate Group Imagery & White Supremacist Dog Whistles",
+      "description": "Content displaying symbols, coded slogans, or numbers associated with recognized hate groups (e.g. neo-Nazi, KKK, white supremacist codes).",
+      "severity": "high",
+      "action": "block",
+      "indicators": [
+        "1488",
+        "14 words",
+        "swastika promotion",
+        "blood and soil",
+        "rahowa",
+        "white power"
+      ],
+      "examples": {
+        "violating": [
+          "We must secure the existence of our people and a future for white children 1488.",
+          "Blood and soil, our race will rise again!",
+          "Posting swastikas and Nazi salutes celebrating white supremacy."
+        ],
+        "non_violating": [
+          "Religious or cultural use of traditional swastika / sauwastika in Hinduism, Buddhism, or Jainism.",
+          "Museum exhibitions and anti-extremism research archives.",
+          "Use of the number 14 or 88 in ordinary mathematical or date contexts."
+        ]
+      },
+      "context_notes": "Assess cultural and historical context, especially regarding ancient religious symbols vs. Nazi emblems."
+    }
+  ]
+}

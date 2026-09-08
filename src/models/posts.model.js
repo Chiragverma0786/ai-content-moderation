@@ -1,22 +1,91 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const PostSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      required: true,
+    {
+        title: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        content: {
+            type: String,
+            required: true,
+            trim: true
+        },
+
+        user_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true
+        },
+
+        moderation: {
+            status: {
+                type: String,
+                enum: [
+                    "PENDING",
+                    "SAFE",
+                    "FLAGGED",
+                    "REVIEW",
+                    "BLOCKED"
+                ],
+                default: "PENDING"
+            },
+
+            category: {
+                type: String,
+                default: null
+            },
+
+            severity: {
+                type: String,
+                default: null
+            },
+
+            ruleId: {
+                type: String,
+                default: null
+            },
+
+            confidence: {
+                type: Number,
+                default: null
+            },
+
+            reason: {
+                type: String,
+                default: null
+            },
+
+            matchedIndicators: {
+                type: [String],
+                default: []
+            },
+
+            retrievedRules: {
+                type: [
+                    {
+                        ruleId: String,
+                        ruleName: String,
+                        category: String,
+                        similarityScore: Number
+                    }
+                ],
+                default: []
+            },
+
+            moderatedAt: {
+                type: Date,
+                default: null
+            }
+        }
     },
-    content: {
-      type: String,
-      required: true,
-    },
-    user_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
-  },
-  { timestamps: true }
+    {
+        timestamps: true
+    }
 );
 
-module.exports = mongoose.model('Posts', PostSchema);
+module.exports =
+    mongoose.models.Posts ||
+    mongoose.model("Posts", PostSchema);

@@ -66,7 +66,7 @@ const moderationRuleSchema = new mongoose.Schema(
 
         embedding: {
             type: [Number],
-            required: true
+            default: []
         }
     },
     {
@@ -74,7 +74,6 @@ const moderationRuleSchema = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model(
-    "ModerationRule",
-    moderationRuleSchema
-);  
+module.exports =
+    mongoose.models.ModerationRule ||
+    mongoose.model("ModerationRule", moderationRuleSchema);
